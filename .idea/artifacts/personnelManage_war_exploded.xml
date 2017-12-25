@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="personnelManage:war exploded">
+    <output-path>F:/apache-tomcat-7.0.73/webapps/personnelManage</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="personnelManage/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="personnelManage" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

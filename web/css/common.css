@@ -1,0 +1,14 @@
+body {
+    text-align: center;
+}
+
+table {
+    text-align: center; /*表格中的文字在单元格中居中*/
+    width: 65%;
+    margin:auto;/*浏览器自动解释为居中，没有验证所有浏览器都支持*/
+}
+
+img {
+    width: 80px;
+    height: 85px;
+}

@@ -1,0 +1,31 @@
+图片统一在dao层拼接
+pageHelp的list没打泛型
+js获取jsp页面的参数要在jsp中调用js函数的时候传参数给它
+js中判断变量是否为空，最好是先检查下变量类型然后在根据类型不同采用不同的方式判断是否为空
+
+很多用到is_delete=0的地方修改0位常量
+导出execl
+看excel导出的视频
+看servlet+ajax的视频
+
+todo 代码重构，撇清ajax和servlet
+大部分的msg都可以go die了
+createUaer.jsp检查用户名是否已经存在
+departmentsInfo.jsp检查部门名称是否已经存在（用户应该不会那么傻）
+
+删除一行 ctrl x
+向下复制一行 ctrl d
+向上/下移动一行 ctrl shift up/down
+跳到下一行 shift enter
+找到最近浏览的文件 ctrl e
+找到最近编辑的文件 ctrl shift c
+编辑区跳转到文件区 alt 1 再跳回来 esc
+
+
+删除部门步骤
+1 删除该部门
+2 修改被删除部门的员工的部门id为被删除部门的上级部门的id
+3 被删除部门的主管不用动
+
+更改下属部门主管
+  直接修改主管，并把新主管的身份置为1，老主管不动,变成光杆司令

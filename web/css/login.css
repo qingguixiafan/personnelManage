@@ -1,0 +1,17 @@
+#divForm {
+    position: absolute;/*绝对定位*/
+    text-align: center;/*(让div中的内容居中)*/
+    top: 50%;
+    left: 50%;
+    margin-top:-200px;
+    margin-left: -150px;
+}
+
+#image {
+    width: 48px;
+    height: 48px;
+}
+
+p {
+    width: 100px;
+}
