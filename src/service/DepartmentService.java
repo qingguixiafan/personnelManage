@@ -75,12 +75,14 @@ public class DepartmentService {
 
     }
 
-    public void updateBySelecter(Department department) {
+    public int updateBySelecter(Department department) {
+        int updateCount = -1;
         try {
-            departmentDao.updateBySelecter(department);
+            updateCount = departmentDao.updateBySelecter(department);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return updateCount;
     }
 
     public int add(Department department) {
@@ -102,5 +104,15 @@ public class DepartmentService {
             e.printStackTrace();
         }
         return id;
+    }
+
+    public Department selectById(int id) {
+        Department department = null;
+        try {
+            department = departmentDao.selectById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return department;
     }
 }

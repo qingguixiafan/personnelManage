@@ -2,6 +2,7 @@ package servlet;
 
 import bean.User;
 import bo.UserBo;
+import net.sf.json.JSONObject;
 import service.UserService;
 import util.PageHelp;
 
@@ -16,7 +17,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2017/12/20.
  */
-@WebServlet("/UserUpdateBySelecterServlet.action")
+@WebServlet("/userUpdateBySelecterServlet.action")
 public class UserUpdateBySelecterServlet extends HttpServlet {
 
     private UserService userService = new UserService();
@@ -38,9 +39,13 @@ public class UserUpdateBySelecterServlet extends HttpServlet {
         // 更新pageHelp
         UserBo userBo = (UserBo) request.getSession().getAttribute("user");
         PageHelp pageHelp = (PageHelp) request.getSession().getAttribute("usersPageHelp");
-        PageHelp updatePageHelp = userService.selectUserListByLeaderId(2, pageHelp.getPageSize(), userBo.getId(), null, null);
+        PageHelp updatePageHelp = userService.selectUserListByLeaderId(pageHelp.getPageNum(), pageHelp.getPageSize(), userBo.getId(), null, null);
         request.getSession().setAttribute("usersPageHelp", updatePageHelp);
-        String path = "/leader/usersInfo.jsp";
-        response.sendRedirect(request.getContextPath()+path);
+
+        JSONObject jsonObject = JSONObject.fromObject(user);
+        response.getWriter().write(jsonObject.toString());
+
+        /*String path = "/leader/usersInfo.jsp";
+        response.sendRedirect(request.getContextPath()+path);*/
     }
 }

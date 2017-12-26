@@ -1,5 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<script type="text/javascript">
+    var msg = "${msg}";
+    if(msg){
+        alert(msg);
+    }
+</script>
+<%
+    request.getSession().removeAttribute("msg");
+%>
 <head>
     <title>创建新用户</title>
     <link rel="stylesheet" type="text/css" href="./../css/common.css" />

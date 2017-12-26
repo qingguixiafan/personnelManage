@@ -125,7 +125,7 @@ public class DepartmentDao {
         return result;
     }
 
-    public void updateBySelecter(Department depar) throws SQLException {
+    public int updateBySelecter(Department depar) throws SQLException {
         Connection conn = DBHelper.getConnection();
         StringBuilder sql = new StringBuilder("update department set ");
         sql.append("id="+depar.getId());
@@ -143,7 +143,9 @@ public class DepartmentDao {
         }
         sql.append(" where id="+depar.getId());
         PreparedStatement statement = conn.prepareStatement(sql.toString());
-        statement.executeUpdate();
+        int updateCount = -1;
+        updateCount = statement.executeUpdate();
+        return updateCount;
     }
 
     public int add(Department department) throws SQLException {
@@ -161,7 +163,6 @@ public class DepartmentDao {
         if (resultSet.next()) {
             id = (int)resultSet.getLong(1);
         }
-        System.out.println("新增部门id："+id);
         return id;
     }
 
@@ -179,7 +180,7 @@ public class DepartmentDao {
 
     public static void main(String[] args) {
         DepartmentDao dao = new DepartmentDao();
-        try {
+        /*try {
             Department depar = new Department();
             depar.setId(6);
             depar.setParentId(2);
@@ -187,9 +188,8 @@ public class DepartmentDao {
             depar.setName("测试");
             int depar_id = dao.add(depar);
             System.out.println(depar_id);
-
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

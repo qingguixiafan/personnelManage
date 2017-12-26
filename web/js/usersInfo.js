@@ -46,7 +46,7 @@ function updateUser(userId) {
     // 这里写的很难受，input框中的值只能通过js获取到，可是js不能封装java对象
     // 这里不好，发起ajax请求会有回调函数，servlet中的页面跳转就不起作用了,不过问题不大
     // fixme: 代码重构后思考换种方式
-    var url = getRootPath()+"/UserUpdateBySelecterServlet.action"
+    var url = getRootPath()+"/userUpdateBySelecterServlet.action"
     $.ajax({
         type: 'POST',
         url: url,
@@ -58,7 +58,7 @@ function updateUser(userId) {
         dataType: 'json',
         contentType: 'application/x-www-form-urlencoded',
         success: function(data){
-            console("is success");
+            console.log(data);
         },
         error: function(jqXHR){
             console.log("is fail");
@@ -68,6 +68,10 @@ function updateUser(userId) {
 
 function createUser() {
     window.location.href = getRootPath()+"/leader/createUser.jsp";
+}
+
+function exportExcel() {
+    window.location.href = getRootPath()+"/exportUserServlet.action";
 }
 
 function getRootPath(){

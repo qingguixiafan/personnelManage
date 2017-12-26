@@ -6,6 +6,7 @@ import common.ResponseCode;
 import common.ServerResponse;
 import util.DBHelper;
 
+import javax.jws.soap.SOAPBinding;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,10 +75,9 @@ public class UserDao {
         Connection conn = DBHelper.getConnection();
         StringBuilder sql = new StringBuilder("update user " );
         sql.append(" set id="+user.getId());
-        if (user.getName()!=null && user.getName().length()!=0){
+        /*if (user.getName()!=null && user.getName().length()!=0){
             sql.append(", name="+"\'"+user.getName()+"\'");
-        }
-        // todo: 添加检查int类型的sex是否为空
+        }*/
         if (user.getSex()!=null){
             sql.append(", sex="+"\'"+user.getSex()+"\'");
         }
@@ -108,6 +108,17 @@ public class UserDao {
         return user;
     }
 
+    public int updateUsersLeaderId(int oldLeaderId, int newLeaderId) throws SQLException {
+        Connection conn = DBHelper.getConnection();
+        String sql = "update user set leader_id=? where leader_id=? and is_delete=?";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setInt(1, newLeaderId);
+        statement.setInt(2, oldLeaderId);
+        statement.setInt(3, Const.IsDelete.UN_DELETE);
+        int updateCount = statement.executeUpdate();
+        return updateCount;
+    }
+
     public String checkUserName(String username) throws SQLException {
         Connection conn = DBHelper.getConnection();
         String sql = new String("select image from user where name="+"\'"+username+"\'");
@@ -133,7 +144,7 @@ public class UserDao {
         return count;
     }
 
-    public  List<User> selectUserListByLeaderId(int pageNum, int pageSize, int leaderId, String order_by, String sort) throws SQLException {
+    public List<User> selectUserListByLeaderId(int pageNum, int pageSize, int leaderId, String order_by, String sort) throws SQLException {
         Connection conn = DBHelper.getConnection();
         StringBuilder sql = new StringBuilder("select ");
         sql.append(Base_Column_List);
@@ -164,6 +175,28 @@ public class UserDao {
             user.setImage(Const.IMAGE_POREFIX+result.getString("image"));
             user.setDepartmentId(result.getInt("department_id"));
             user.setLeaderId(result.getInt("leader_id"));
+            list.add(user);
+        }
+        return list;
+    }
+
+    public List<User> selectUserListByLeaderId(int leaderId) throws SQLException {
+        Connection conn = DBHelper.getConnection();
+        String sql = "select "+Base_Column_List+" from user where is_delete=? and leader_id=?";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setInt(1, Const.IsDelete.UN_DELETE);
+        statement.setInt(2, leaderId);
+        ResultSet resultSet = statement.executeQuery();
+        List<User> list = new ArrayList<User>();
+        while (resultSet.next()) {
+            User user = new User();
+            user.setId(resultSet.getInt("id"));
+            user.setName(resultSet.getString("name"));
+            user.setSex(resultSet.getInt("sex"));
+            user.setRole(resultSet.getInt("role"));
+            user.setPhone(resultSet.getString("phone"));
+            user.setEmail(resultSet.getString("email"));
+            user.setSalary(resultSet.getDouble("salary"));
             list.add(user);
         }
         return list;
@@ -208,10 +241,29 @@ public class UserDao {
 
     public boolean isExist(int leaderId, int userId) throws SQLException {
         Connection conn = DBHelper.getConnection();
-        String sql = "select count(*) from user where id=? and leader_id=?";
+        String sql = "select count(*) from user where id=? and leader_id=? and is_delete=?";
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setInt(1, userId);
         statement.setInt(2, leaderId);
+        statement.setInt(3, Const.IsDelete.UN_DELETE);
+        ResultSet resultSet = statement.executeQuery();
+        int count = 0;
+        if (resultSet.next()) {
+            count = resultSet.getInt(1);
+        }
+        if (count>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean nameIsExist(String name) throws SQLException {
+        Connection conn = DBHelper.getConnection();
+        String sql = "select count(1) from user where is_delete=? and name=?";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setInt(1, Const.IsDelete.UN_DELETE);
+        statement.setString(2, name);
         ResultSet resultSet = statement.executeQuery();
         int count = 0;
         if (resultSet.next()) {
@@ -229,7 +281,7 @@ public class UserDao {
 //        User user = userDao.login("root", "21232f297a57a5a743894a0e4a801fc3");
 //        userDao.delete(10);
 //        System.out.println(user);
-        /*User user = new User();
+        User user = new User();
         user.setName("test");
         user.setRole(1);
         user.setSex(1);
@@ -238,7 +290,9 @@ public class UserDao {
         user.setSalary(4399.0);
         user.setPassowrd("admin");
         user.setImage("aaa");
-        userDao.add(user);*/
-        System.out.println(userDao.isExist(2, 12));
+        userDao.add(user);
+//        System.out.println(userDao.isExist(2, 12));
+//        userDao.selectUserListByLeaderId(1);
+//        System.out.println(userDao.nameIsExist("sdgf"));
     }
 }

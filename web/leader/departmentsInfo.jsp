@@ -19,7 +19,10 @@
 </head>
 
 <body>
+<div>
+    <input type="button" style="float: left;margin-left: 500px;margin-right: -4000px;line-height: 15px;height: 31px;" onclick="exportExcel()" value="导出excel">
     <h2>部门信息显示页</h2>
+</div>
     <c:set var="deparList" scope="session" value="${deparPageHelp.getList()}"/>
 <div id="divForm">
 <form>
@@ -59,7 +62,6 @@
         <input type="button" onclick="directPage(${deparPageHelp.getPageSize()})" value="转到">
         <input id="pageNum" style="width:50px;">页
         <input type="button" onclick="createDepar()" value="添加部门"/>
-        <a onclick="exportExcel()">导出excel</a>
     </td>
 </tr>
 </body>

@@ -12,8 +12,11 @@
     <link rel="stylesheet" type="text/css" href="./../css/common.css" />
 </head>
 
-<body style="background-color: cadetblue;">
+<body>
+<div>
+    <input type="button" style="float: left;margin-left: 500px;margin-right: -4000px;line-height: 15px;height: 31px;" onclick="exportExcel()" value="导出excel">
     <h2>员工信息页</h2>
+</div>
     <c:set var="userList" scope="session" value="${usersPageHelp.getList()}"/>
 <div id="divForm">
 <form>
@@ -49,7 +52,6 @@
                         <option value="1" <c:if test="${user.role eq 1}">selected</c:if>>部门主管</option>
                         <option value="0" <c:if test="${user.role eq 0}">selected</c:if>> 普通员工</option>
                     </select>
-
                 </td>
                 <td><input id="${user.id}_salary" style="width: 60px;" value="${user.salary}" /></td>
                 <td>${user.phone}</td>

@@ -46,6 +46,16 @@ public class UserService {
         return updateUser;
     }
 
+    public int updateUsersLeaderId(int oldLeaderId, int newLeaderId) {
+        int updateCount = 0;
+        try {
+            updateCount = userDao.updateUsersLeaderId(oldLeaderId, newLeaderId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return updateCount;
+    }
+
     public PageHelp selectUserListByLeaderId(int pageNum, int pageSize, int leaderId, String order_by, String sort) {
         List<User> users = null;
         try {
@@ -133,6 +143,16 @@ public class UserService {
         boolean result = false;
         try {
             result = userDao.isExist(leaderId, userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean nameIsExist(String name) {
+        boolean result = true;
+        try {
+            result = userDao.nameIsExist(name);
         } catch (SQLException e) {
             e.printStackTrace();
         }

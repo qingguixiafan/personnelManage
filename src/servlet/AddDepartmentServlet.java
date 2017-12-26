@@ -43,13 +43,18 @@ public class AddDepartmentServlet extends HttpServlet {
             department.setName(depar_name);
             department.setHostId(host_id);
             department.setParentId(parent_id);
-            System.out.println(department);
-            deparService.add(department);
-            path = "/leader/departmentsInfo.jsp";
+            int id = deparService.add(department);
+            if (id==-1) {
+                String msg = "部门名已经存在";
+                request.getSession().setAttribute("msg", msg);
+                path = "/leader/createDepar.jsp";
+            } else {
+                path = "/leader/departmentsInfo.jsp";
+                PageHelp pageHelp = (PageHelp) request.getSession().getAttribute("deparPageHelp");
+                pageHelp = deparService.selectDeparListByParentId(pageHelp.getPageNum(), pageHelp.getPageSize(), parent_id, null, null);
+                request.getSession().setAttribute("deparPageHelp", pageHelp);
+            }
         }
-        PageHelp pageHelp = (PageHelp) request.getSession().getAttribute("deparPageHelp");
-        pageHelp = deparService.selectDeparListByParentId(pageHelp.getPageNum(), pageHelp.getPageSize(), parent_id, null, null);
-        request.getSession().setAttribute("deparPageHelp", pageHelp);
         response.sendRedirect(request.getContextPath()+path);
     }
 }

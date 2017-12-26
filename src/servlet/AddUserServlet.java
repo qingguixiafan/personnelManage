@@ -49,13 +49,17 @@ public class AddUserServlet extends HttpServlet {
         user.setLeaderId(currUser.getId());
 
         int id = userService.add(user);
-        System.out.println("新增用户的id为："+id);
         // 页面跳转
-
-        pageHelp = userService.selectUserListByLeaderId(1, pageHelp.getPageSize(), currUser.getId(), null, null);
-        request.getSession().setAttribute("usersPageHelp", pageHelp);
-        String path = "/leader/usersInfo.jsp";
+        String path = null;
+        if (id==-1) {
+            String msg = "用戶名已经存在";
+            request.getSession().setAttribute("msg", msg);
+            path = "/leader/createUser.jsp";
+        } else {
+            pageHelp = userService.selectUserListByLeaderId(1, pageHelp.getPageSize(), currUser.getId(), null, null);
+            request.getSession().setAttribute("usersPageHelp", pageHelp);
+            path = "/leader/usersInfo.jsp";
+        }
         response.sendRedirect(request.getContextPath()+path);
-
     }
 }
